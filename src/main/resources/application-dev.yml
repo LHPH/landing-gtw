@@ -1,0 +1,28 @@
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:3000
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+            
+app:
+  routes:
+    key1:
+      id-route: 1
+      domain-route: https://landing-saveform.herokuapp.com
+      path-route: /mkt/form
+      port-route: 443
+      headers-request:
+        key: hello
+      
