@@ -7,6 +7,8 @@ import com.mkt.core.base.BaseModel;
 public class RouteModel extends BaseModel{
 	
 	private String idRoute;
+	private String typeService;
+	private String exposureRoute;
 	private String domainRoute;
 	private String pathRoute;
 	private String portRoute;
@@ -42,6 +44,18 @@ public class RouteModel extends BaseModel{
 	}
 	public void setDomainRoute(String domainRoute) {
 		this.domainRoute = domainRoute;
+	}
+	public String getExposureRoute() {
+		return exposureRoute;
+	}
+	public void setExposureRoute(String exposureRoute) {
+		this.exposureRoute = exposureRoute;
+	}
+	public String getTypeService() {
+		return typeService;
+	}
+	public void setTypeService(String typeService) {
+		this.typeService = typeService;
 	}
 	
 	

@@ -20,6 +20,8 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static com.mkt.gtw.constants.Constants.ERROR_GEN_GTW;
+
 import com.mkt.core.model.Message;
 
 import reactor.core.publisher.Mono;
@@ -65,9 +67,9 @@ public class ErrorFilter extends AbstractErrorWebExceptionHandler {
 		Map<String, Object> errorPropertiesMap = getErrorAttributes(request, true);
 		
 		Message error = new Message();
-		error.setCode("CODE");
+		error.setCode(ERROR_GEN_GTW);
 		error.setType("ERROR");
-		error.setDescription("Ocurrio un error en: "+request.path());
+		error.setDescription("Ocurrio un error al consumir: "+request.path());
 		error.setStatus(HttpStatus.valueOf(Integer.valueOf(errorPropertiesMap.get("status").toString())));
 		
 	    LOGGER.info("Error {}",errorPropertiesMap.get("trace"));

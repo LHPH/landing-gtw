@@ -12,10 +12,8 @@ import com.mkt.gtw.model.RouteModel;
 
 @Component
 @ConfigurationProperties(prefix=YML_APP_CONFIG_PREFIX)
-public class RoutesConfig {
+public class RoutesPropertiesConfig {
 	
-	
-
 	private Map<String,RouteModel> routes;
 
 	public Map<String, RouteModel> getRoutes() {

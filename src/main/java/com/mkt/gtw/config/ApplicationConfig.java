@@ -1,5 +1,7 @@
 package com.mkt.gtw.config;
 
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.WebFilter;
 
+import com.mkt.gtw.filters.HeadersFilter;
 import com.mkt.gtw.model.RouteModel;
 
 import reactor.core.publisher.Mono;
@@ -23,7 +26,10 @@ public class ApplicationConfig {
 	private final static Logger LOGGER = LogManager.getLogger();
 	
 	@Autowired
-	private RoutesConfig config;
+	private RoutesPropertiesConfig config;
+	
+	@Autowired
+	private HeadersFilter headersFilter;
 	
 	@Value("${server.servlet.context-path}")
 	private String contextPath;
@@ -31,19 +37,27 @@ public class ApplicationConfig {
 	@Bean
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		
-		LOGGER.info("*** {}",config.getRoutes().get("key1"));
+		Map<String,RouteModel> routes=config.getRoutes();
 		
-		RouteModel landing = config.getRoutes().get("key1");
+		RouteLocatorBuilder.Builder builderRoutes = builder.routes();
 		
-		String get = landing.getDomainRoute()+":"+landing.getPortRoute();
+		for(Map.Entry<String, RouteModel> entry : routes.entrySet()) {
+			
+			RouteModel routeModel = entry.getValue();
+			String routeKey = entry.getKey();
+			LOGGER.info("Registrando route para {}",routeKey);
+			
+			String typeService = routeModel.getTypeService();
+			String endpoint = routeModel.getDomainRoute()+":"+routeModel.getPortRoute();
+			String exposureRoute = routeModel.getExposureRoute();
+			
+			builderRoutes.route(routeModel.getIdRoute(),p -> p.path("/"+typeService+exposureRoute) //
+					.filters(f ->  f.rewritePath("^(\\/service)",routeModel.getPathRoute())
+							.filter(headersFilter.apply(routeModel)))
+					.uri(endpoint)).build();
+		}
 		
-	    return builder.routes().route(landing.getIdRoute(),
-	    		p -> p.path("/service/landing")
-	    	.filters(f ->  f.rewritePath("^(\\/service)",landing.getPathRoute())
-	    					.addRequestHeader("token",landing.getHeadersRequest().get("key")))
-	    	.uri(get)	    		
-	    	)
-	    		.build();
+	    return builderRoutes.build();
 	}
 	
 	@Bean

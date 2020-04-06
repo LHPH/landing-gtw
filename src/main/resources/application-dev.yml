@@ -6,7 +6,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
-              - http://localhost:3000
+              - http://localhost:9000
             allowedHeaders:
               - content-type
             allowedMethods:
@@ -18,11 +18,13 @@ spring:
             
 app:
   routes:
-    key1:
+    landing:
       id-route: 1
+      type-service: service
+      exposure-route: /landing
       domain-route: https://landing-saveform.herokuapp.com
       path-route: /mkt/form
       port-route: 443
       headers-request:
-        key: hello
+        token: hello
       

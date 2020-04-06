@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mkt</groupId>
-	<artifactId>landing-gtw</artifactId>
+	<artifactId>mkt-gtw</artifactId>
 	<version>1.0.0</version>
-	<name>Landing GTW</name>
+	<name>MKT GTW</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
