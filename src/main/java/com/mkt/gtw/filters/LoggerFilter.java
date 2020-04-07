@@ -29,10 +29,11 @@ public class LoggerFilter implements GlobalFilter{
 		
 		Set<URI> uris = exchange.getAttributeOrDefault(GATEWAY_ORIGINAL_REQUEST_URL_ATTR, Collections.emptySet());
 		String originalUri = (uris.isEmpty()) ? exchange.getRequest().getURI().toString() : uris.iterator().next().toString();
+		String method = exchange.getRequest().getMethodValue();
 		Route route = exchange.getAttribute(GATEWAY_ROUTE_ATTR);
 		URI routeUri = exchange.getAttribute(GATEWAY_REQUEST_URL_ATTR);
 		
-		LOGGER.info("Request: {} to route id: {}, url :{}",originalUri,route.getId(),routeUri);
+		LOGGER.info("Request: {} to route id: {}, method: {}  url :{}",originalUri,route.getId(),method,routeUri);
 
 		return chain.filter(exchange);
 	}

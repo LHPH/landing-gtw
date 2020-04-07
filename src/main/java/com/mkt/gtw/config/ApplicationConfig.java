@@ -51,7 +51,7 @@ public class ApplicationConfig {
 			String endpoint = routeModel.getDomainRoute()+":"+routeModel.getPortRoute();
 			String exposureRoute = routeModel.getExposureRoute();
 			
-			builderRoutes.route(routeModel.getIdRoute(),p -> p.path("/"+typeService+exposureRoute) //
+			builderRoutes.route(routeModel.getIdRoute(),p -> p.path("/"+typeService+exposureRoute+"/**") //
 					.filters(f ->  f.rewritePath("^(\\/service)",routeModel.getPathRoute())
 							.filter(headersFilter.apply(routeModel)))
 					.uri(endpoint)).build();
